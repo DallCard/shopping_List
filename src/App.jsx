@@ -1,132 +1,98 @@
 import { useState } from "react"
+import ListItem from "./components/ListItem";
+import NewItemButton from "./components/NewItemButton";
+import ClearListButton from "./components/ClearListButton";
 
 function App() {
 
-  const [itemChecked, setitemChecked] = useState({
-    first: false,
-    second: false,
-    third: false,
+  const [listItems, setListItems] = useState([
+    { 
+    id:"1",
+    name:"Arroz",
+    quantity: 1,
+    unit:"Kg",
+    checked: false,
+    },
 
-  })
+    { 
+    id:"2",
+    name:"Frijol",
+    quantity: 1,
+    unit:"Kg",
+    checked: false,
+    },
+
+    { 
+    id:"3",
+    name:"Leche",
+    quantity: 1,
+    unit:"Lt",
+    checked: false,
+    },
+
+    { 
+      id:"3",
+      name:"Papel higienico",
+      quantity: 1,
+      unit:"Pz",
+      checked: false,
+      },
+  
+  ])
 
   const handleItemChecked = (e) => {
-   /* if (itemChecked[e.target.name]){
-set)ItemChecked({
-  ...itemChecked,
-  [e.target.name]: false, 
-});
-    }else{
-      setItemChecked
-    }
-  
-  }*/
+    const newList = listItems.map(item => {
+      if(e.target.name === item.id){
+        item.checked = !item.checked;
+      }
+      return item;
+    })
+    setListItems(newList);
 
-  setitemChecked({
-    ...itemChecked,
-    [e.target.name]:!itemChecked[e.target.name]
-  })
   }
+ 
   return (
     <div className="container text-center"> 
     <div className="row"> 
     <div className="col text-star">
     <h1> Shopping List</h1>
-    <hr />
+    
     </div>
-    <div className="col text-end">
-      <button type="button" className="btn btn-outline-primary">
-        <i className="bi bi-plus-circle"></i>
-      </button>
-    </div>
-    </div>
+    <div className="col text-end mt-2">
 
+      <ClearListButton setListItems={setListItems}
+      />
 
-    <div className="row">  
-    <div className="col"> 
-    <input 
-    type="checkbox" 
-    checked={itemChecked.first}
-    name="first"
-    onClick={(e) => handleItemChecked(e)}
+      <NewItemButton
+      listItems={listItems}
+      setListItem={setListItems}
+      />
+    </div>
+    </div>
+<hr />
+{
+  listItems.map((item) => (
+    <ListItem 
+      id={item.id} 
+      name={item.name} 
+      quantity={item.quantity} 
+      unit={item.unit} 
+      checked={item.checked}
+      handleItemChecked={handleItemChecked}
     />
-     </div>
-    <div className="col-2 text-start "> 
-    {
-     // itemChecked.first && <del>1 Kg </del>
-    }
-
-   {
-      //!itemChecked.first && "1 Kg "
-    }
-    {
-      itemChecked.first ? <del>1 Kg </del> : "1 kg"
-    }
-      
-    </div>
-
-    <div 
-    className="col-5 col-md-6 text-start" 
-    style={{textDecoration: itemChecked.first && "line-through"}}
-    >
-       Tortillas 
-    </div>
-    <div className="col-4 col-md-3 btn-group btn-group-sm" role="group"> 
-    <button type="button" className="btn btn-outline-primary">
-      <i className="bi bi-pencil-square"></i>
-      </button>
-      <button type="button" className="btn btn-outline-primary">
-      <i className="bi bi-files"></i>
-      </button>
-    <button type="button" className="btn btn-outline-danger">
-      <i className="bi bi-trash2-fill"></i>
-      </button> 
+  ))
+}
+<hr />
+<div className="row"> 
+      <div className="col text-end">
+        <ClearListButton setListItems={setListItems} />
+        <NewItemButton 
+        listItems={listItems}
+        setListItems={setListItems}
+        />
       </div>
-    </div>
-
-
-    <div className="row">  
-    <div className="col"> 
-    <input type="checkbox"/>
-     </div>
-    <div className="col-2 text-start "> 1 Lt </div>
-    <div className="col-5 col-md-6 text-start"> Aceite </div>
-    <div className="col-4 col-md-3 btn-group btn-group-sm" role="group"> 
-    <button type="button" className="btn btn-outline-primary">
-      <i className="bi bi-pencil-square"></i>
-      </button>
-      <button type="button" className="btn btn-outline-primary">
-      <i className="bi bi-files"></i>
-      </button>
-    <button type="button" className="btn btn-outline-danger">
-      <i className="bi bi-trash2-fill"></i>
-      </button> 
       </div>
-    </div>
-
-
-    <div className="row">  
-    <div className="col"> 
-    <input type="checkbox"/>
-     </div>
-    <div className="col-2 text-start "> 3 Lt </div>
-    <div className="col-5 col-md-6 text-start"> Coca Cola </div>
-    <div className="col-4 col-md-3 btn-group btn-group-sm" role="group"> 
-    <button type="button" className="btn btn-outline-primary">
-      <i className="bi bi-pencil-square"></i>
-      </button>
-      <button type="button" className="btn btn-outline-primary">
-      <i className="bi bi-files"></i>
-      </button>
-    <button type="button" className="btn btn-outline-danger">
-      <i className="bi bi-trash2-fill"></i>
-      </button> 
-      </div>
-    </div>
-
    </div>
   )
-   
-    
 }
-
-export default App
+export default App;
